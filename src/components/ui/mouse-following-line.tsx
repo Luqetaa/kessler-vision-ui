@@ -66,11 +66,11 @@ export function GridAnimation({
   }, [cols, rows, spacing, ballRef, animate])
 
   // Finds the nearest grid point to a given coordinate
-  const snapToGrid = (pointX: number, pointY: number) => {
+  const snapToGrid = useCallback((pointX: number, pointY: number) => {
     const nearestX = Math.round(pointX / spacing) * spacing
     const nearestY = Math.round(pointY / spacing) * spacing
     return { x: nearestX, y: nearestY }
-  }
+  }, [spacing])
 
   // Main animation loop to draw the grid lines on the canvas
   const animateCanvas = useCallback(() => {
@@ -144,38 +144,8 @@ export function GridAnimation({
     requestAnimationFrame(animateCanvas)
   }, [animateCanvas])
 
-  // Handle mouse move events to animate the ball
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = canvasRef.current?.getBoundingClientRect()
-    if (!rect) return
-
-    const mouseX = event.clientX - rect.left
-    const mouseY = event.clientY - rect.top
-    const { x: snapX, y: snapY } = snapToGrid(mouseX, mouseY)
-
-    // Update our position reference immediately for smooth canvas updates
-    currentBallPosition.current = { x: snapX, y: snapY }
-
-    if (ballRef.current) {
-      animate(
-        ballRef.current,
-        { x: snapX, y: snapY },
-        {
-          type: "spring",
-          stiffness: 300,
-          damping: 20,
-        },
-      )
-    }
-  }
-
-  // Handle mouse enter to start animation loop
-  const handleMouseEnter = () => {
-    startAnimationLoop()
-  }
-
   // Handle mouse leave event to return the ball to the center
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     const centerX = dimensions.width / 2
     const centerY = dimensions.height / 2
 
@@ -194,29 +164,75 @@ export function GridAnimation({
     }
 
     stopAnimationLoop()
-  }
+  }, [dimensions, animate, stopAnimationLoop, ballRef])
 
-  // Effect for initial draw and cleanup
+  // Global mouse tracking to allow interaction even when mouse is over elements on top of the grid
   useEffect(() => {
+    const handleGlobalMouseMove = (event: MouseEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect()
+      if (!rect) return
+
+      const isInside = 
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+
+      if (isInside) {
+        if (!isMouseOverRef.current) {
+          startAnimationLoop()
+        }
+        
+        const mouseX = event.clientX - rect.left
+        const mouseY = event.clientY - rect.top
+        const { x: snapX, y: snapY } = snapToGrid(mouseX, mouseY)
+
+        currentBallPosition.current = { x: snapX, y: snapY }
+
+        if (ballRef.current) {
+          animate(
+            ballRef.current,
+            { x: snapX, y: snapY },
+            {
+              type: "spring",
+              stiffness: 300,
+              damping: 20,
+            },
+          )
+        }
+      } else {
+        if (isMouseOverRef.current) {
+          handleMouseLeave()
+        }
+      }
+    }
+
+    const handleGlobalMouseLeave = () => {
+      if (isMouseOverRef.current) {
+        handleMouseLeave()
+      }
+    }
+
+    window.addEventListener("mousemove", handleGlobalMouseMove)
+    document.addEventListener("mouseleave", handleGlobalMouseLeave)
+    
     // Initial draw
     if (canvasRef.current) {
       requestAnimationFrame(animateCanvas)
     }
 
-    // Cleanup on unmount
     return () => {
+      window.removeEventListener("mousemove", handleGlobalMouseMove)
+      document.removeEventListener("mouseleave", handleGlobalMouseLeave)
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [animateCanvas])
+  }, [dimensions, animateCanvas, startAnimationLoop, handleMouseLeave, snapToGrid, animate, ballRef])
 
   return (
     <div
       className={cn("relative cursor-pointer overflow-hidden", className)}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       style={{
         width: "100%",
         height: "100%",

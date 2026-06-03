@@ -24,7 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Alinha o conteúdo no topo */
-  padding-top: 15vh; /* Aumentado para empurrar o texto mais para baixo no espaço livre */
+  padding-top: 8vh; /* Reduzido de 15vh para subir o texto e distanciá-lo da cena do Three.js */
   padding-left: 2rem;
   padding-right: 2rem;
 }

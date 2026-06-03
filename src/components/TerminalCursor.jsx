@@ -23,6 +23,7 @@ export default function TerminalCursor({ enabled = true }) {
   const [targetRect, setTargetRect] = useState(null);
   const [isSmall, setIsSmall] = useState(false);
   const [onResize, setOnResize] = useState(false);
+  const [inPythonSection, setInPythonSection] = useState(false);
 
   /* Mouse tracking — detects element */
   useEffect(() => {
@@ -34,6 +35,27 @@ export default function TerminalCursor({ enabled = true }) {
     const move = (e) => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
+
+      // Check if cursor is in python section
+      const inPython = e.target instanceof Element ? !!e.target.closest('#python-agent, .python-scroll-wrapper') : false;
+      setInPythonSection((prev) => {
+        if (prev !== inPython) {
+          if (inPython) {
+            document.body.classList.remove("cursor-hidden");
+          } else {
+            document.body.classList.add("cursor-hidden");
+          }
+          return inPython;
+        }
+        return prev;
+      });
+
+      if (inPython) {
+        lockedEl.current = null;
+        setTargetRect(null);
+        setIsSmall(false);
+        return;
+      }
 
       // Hide custom cursor when over resize handles
       const resizeEl = e.target instanceof Element ? e.target.closest("[data-resize]") : null;
@@ -127,7 +149,7 @@ export default function TerminalCursor({ enabled = true }) {
     return () => cancelAnimationFrame(frame);
   }, [enabled]);
 
-  if (!enabled || onResize) return null;
+  if (!enabled || onResize || inPythonSection) return null;
 
   /* ── Large button mode: fixed [CLICK] label ── */
   if (targetRect && !isSmall) {

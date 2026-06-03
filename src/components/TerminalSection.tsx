@@ -174,7 +174,7 @@ const TerminalSection = () => {
                     key={idx}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="cursor-pointer hover:text-white hover:bg-white/10 w-fit px-3 py-1.5 -ml-3 rounded transition-colors text-zinc-400"
+                    className="w-fit px-3 py-1.5 -ml-3 text-zinc-400"
                   >
                     {option}
                   </motion.div>

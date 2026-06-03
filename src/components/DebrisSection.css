@@ -1,0 +1,107 @@
+.hero-scroll-wrapper {
+  position: relative;
+  width: 100%;
+  height: 300vh; /* Aumentado para dar mais tempo de "trava" durante o scroll */
+}
+
+.hero-container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #eaeaea; /* Light Theme Base */
+  overflow: hidden;
+}
+
+.overlay-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinha o conteúdo no topo */
+  padding-top: 15vh; /* Aumentado para empurrar o texto mais para baixo no espaço livre */
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.ui-content {
+  max-width: 1100px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.ui-kessler-text {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600; /* Peso elegante como na inspiração */
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  /* Removido o text-shadow forte para ficar mais limpo */
+}
+
+.kessler-word {
+  color: #cccccc; /* Cor inicial inativa (cinza claro) */
+  /* Sem transition aqui para que a atualização via JS (cor rgb) seja instantânea e responsiva ao scroll */
+}
+
+/* 
+  Styles para os labels da nuvem de detritos (HTML Overlay in 3D) 
+*/
+.debris-label {
+  background-color: #ffcc00;
+  color: #000000;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate3d(8px, -8px, 0);
+  border-left: 2px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.9;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+.debris-label-text {
+  letter-spacing: 0.5px;
+}
+
+.debris-label-icon {
+  font-size: 0.5rem;
+  line-height: 1;
+}
+
+.debris-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: #333;
+  margin-left: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.raw-sat-icon {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.sat-pipes {
+  font-size: 0.35rem; /* Menor */
+  opacity: 1; /* Opacidade máxima conforme solicitado */
+  letter-spacing: -0.5px;
+}
+
+.sat-core {
+  font-size: 0.8rem; /* Maior quadrado */
+  color: #222;
+}

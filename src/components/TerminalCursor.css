@@ -1,0 +1,83 @@
+/* Hide ALL cursors when custom cursor is active */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}
+.cursor-hidden [data-resize] {
+  cursor: var(--resize-cursor) !important;
+}
+
+/* =====================================================
+   TERMINAL CURSOR - KESSLER VISION UI STYLE
+==================================================== */
+
+.terminal-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999; /* Garante que fique acima de tudo, incluindo Three.js */
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: visible;
+
+  font-family: 'IBM Plex Mono', monospace; /* Fonte tech */
+  
+  /* Inverte a cor dependendo do que está atrás (Branco padrão) */
+  color: #fff;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+
+  transition:
+    width  0.12s cubic-bezier(0.33, 1, 0.68, 1),
+    height 0.12s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.terminal-cursor .bracket {
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  transition: font-size 0.12s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* ── [CLICK] mode for small buttons ── */
+.cursor-click-mode {
+  gap: 2px;
+  padding: 2px 0;
+}
+
+.click-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.click-bracket {
+  font-size: 14px !important;
+}
+
+/* Corner tick marks — little · dots at each corner of the reticle */
+.cursor-corner {
+  position: absolute;
+  font-size: 10px;
+  line-height: 1;
+  color: #fff;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: corner-pulse 1.6s ease-in-out infinite;
+}
+.cursor-corner.tl { top: 1px;  left:  2px;  }
+.cursor-corner.tr { top: 1px;  right: 2px;  }
+.cursor-corner.bl { bottom: 1px; left:  2px; }
+.cursor-corner.br { bottom: 1px; right: 2px; }
+
+@keyframes corner-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1;   }
+}

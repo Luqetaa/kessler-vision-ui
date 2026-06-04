@@ -14,10 +14,9 @@ function App() {
     let currentY = window.scrollY;
     let rAF;
 
-    // Sincroniza se o usuário scrollar de outro jeito (scrollbar, touch, etc.)
     const syncScroll = () => {
-      // Se a diferença entre o real e o esperado for grande, alguém scrollou por fora
-      if (Math.abs(window.scrollY - currentY) > 2) {
+      // Tolerância maior para evitar matar o momentum devido a imprecisões de pixel do navegador
+      if (Math.abs(window.scrollY - currentY) > 20) {
         targetY = window.scrollY;
         currentY = window.scrollY;
       }
@@ -38,13 +37,12 @@ function App() {
       e.preventDefault();
 
       let delta = e.deltaY;
-      // Normaliza pra pixels
-      if (e.deltaMode === 1) delta *= 20;
+      // Normaliza pra pixels (ajuste para diferentes SOs/mouses)
+      if (e.deltaMode === 1) delta *= 40;
       if (e.deltaMode === 2) delta *= window.innerHeight;
 
-      // Normaliza o delta — limita cada tick a no máximo 60px de distância-alvo
-      // Isso garante que qualquer mouse/OS tem o mesmo comportamento
-      delta = Math.max(-60, Math.min(60, delta * 0.5));
+      // Multiplicador de velocidade para scroll responsivo sem clamp extremo
+      delta *= 1.8;
 
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       targetY = Math.max(0, Math.min(maxScroll, targetY + delta));
@@ -56,12 +54,12 @@ function App() {
       // Lerp suave — interpola entre posição atual e alvo
       const diff = targetY - currentY;
       if (Math.abs(diff) > 0.5) {
-        // Easing: move 12% da distância restante por frame (~60fps)
-        // Isso cria um efeito de desaceleração natural (ease-out)
-        currentY += diff * 0.12;
+        // Easing ainda mais fluido e longo (floaty momentum)
+        currentY += diff * 0.04;
         window.scrollTo(0, currentY);
       } else {
         currentY = targetY;
+        window.scrollTo(0, currentY);
       }
 
       rAF = requestAnimationFrame(animate);

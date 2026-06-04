@@ -140,10 +140,10 @@ export default function PythonAgentSection() {
     <div className="python-scroll-wrapper">
       <div className="python-container font-sans">
         <section className="relative w-full h-full bg-[#050505] py-24 overflow-y-auto border-t border-white/5 scrollbar-hide">
-          {/* Background sutil */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-zinc-900/20 via-transparent to-transparent pointer-events-none" />
-          
-          <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
+        {/* Background sutil */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-zinc-900/20 via-transparent to-transparent pointer-events-none" />
+        
+        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
             
             {/* HEADER CENTRALIZADO */}
             <motion.div 

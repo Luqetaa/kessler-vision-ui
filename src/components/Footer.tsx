@@ -103,7 +103,7 @@ export default function Footer() {
       <div className="relative w-full h-[260px] select-none pointer-events-none z-10 overflow-visible mt-4">
         {/* Band 1 (Back) */}
         <div 
-          className="absolute left-[-5%] w-[110%] py-6 bg-[#4e37ff] border-y border-white/20"
+          className="absolute left-[-5%] w-[110%] py-6 bg-[#4e37ff] border-y border-white"
           style={{ 
             transform: 'rotate(-2.5deg)', 
             top: '-15px',
@@ -126,7 +126,7 @@ export default function Footer() {
 
         {/* Band 2 (Front) */}
         <div 
-          className="absolute left-[-5%] w-[110%] py-6 bg-[#4e37ff] border-y border-white/20 shadow-[0_-5px_12px_rgba(0,0,0,0.15)]"
+          className="absolute left-[-5%] w-[110%] py-6 bg-[#4e37ff] border-y border-white shadow-[0_-5px_12px_rgba(0,0,0,0.15)]"
           style={{ 
             transform: 'none', 
             top: '90px',
@@ -180,10 +180,10 @@ export default function Footer() {
         </div>
 
         {/* BOTTOM GRID SECTION */}
-        <div className="w-full border-t border-white/25 pt-12 pb-8">
+        <div className="w-full border-t border-white/60 pt-12 pb-8">
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-left font-sans">
             {/* Column 1: Scan */}
-            <div className="flex flex-col justify-between min-h-[160px] border-r-0 md:border-r border-white/15 pr-0 md:pr-12">
+            <div className="flex flex-col justify-between min-h-[160px] border-r-0 md:border-r border-white/60 pr-0 md:pr-12">
               <div>
                 <h5 className="text-lg font-bold mb-2">Scan.</h5>
                 <p className="text-white/70 text-sm leading-relaxed font-light max-w-xs">
@@ -196,7 +196,7 @@ export default function Footer() {
             </div>
 
             {/* Column 2: Access */}
-            <div className="flex flex-col justify-between min-h-[160px] border-r-0 md:border-r border-white/15 px-0 md:px-6">
+            <div className="flex flex-col justify-between min-h-[160px] border-r-0 md:border-r border-white/60 px-0 md:px-6">
               <div>
                 <h5 className="text-lg font-bold mb-2">Access.</h5>
                 <p className="text-white/70 text-sm leading-relaxed font-light max-w-xs">
@@ -237,7 +237,7 @@ export default function Footer() {
         </div>
 
         {/* SUB-FOOTER */}
-        <div className="w-full border-t border-white/20 pt-6 mt-12 flex flex-col md:flex-row items-center justify-between text-xs text-white/50 font-sans gap-4">
+        <div className="w-full border-t border-white/60 pt-6 mt-12 flex flex-col md:flex-row items-center justify-between text-xs text-white/50 font-sans gap-4">
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Cookies Preferences</a>

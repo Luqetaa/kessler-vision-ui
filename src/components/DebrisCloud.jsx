@@ -150,12 +150,12 @@ const DebrisCloud = () => {
   // Escuta o evento de Scroll (Roda do Mouse ou Trackpad) globalmente
   useEffect(() => {
     const handleWheel = (event) => {
-      // Independentemente se o scroll é para cima ou para baixo, injetamos energia cinética
-      scrollVelocity.current += Math.abs(event.deltaY) * 0.003;
+      // Aumentamos o multiplicador para dar mais energia cinética
+      scrollVelocity.current += Math.abs(event.deltaY) * 0.015;
       
-      // Limitador de velocidade (Terminal Velocity) para não quebrar a engine
-      if (scrollVelocity.current > 10) {
-        scrollVelocity.current = 10;
+      // Limitador de velocidade (Terminal Velocity) elevado para girar bem mais rápido
+      if (scrollVelocity.current > 30) {
+        scrollVelocity.current = 30;
       }
     };
     

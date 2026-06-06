@@ -89,7 +89,7 @@ export default function Footer() {
   return (
     <footer 
       ref={footerRef}
-      className="w-full min-h-screen text-white pt-24 pb-0 px-0 overflow-hidden flex flex-col justify-between relative z-20 bg-transparent"
+      className="w-full min-h-screen text-white pt-24 pb-0 px-0 overflow-hidden flex flex-col justify-between relative z-20 bg-[#050505]"
     >
       <style>{`
         .marquee-strip {

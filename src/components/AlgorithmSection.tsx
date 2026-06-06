@@ -1,6 +1,20 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-
+import { Canvas, useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+import DataFlowPrediction from './DataFlowPrediction';
+import Earth from './Earth';
+const CameraRig = () => {
+  const vec = new THREE.Vector3();
+  const target = new THREE.Vector3(0, 2.5, 0); 
+  
+  useFrame((state) => {
+    vec.set(state.pointer.x * 6, 9, 22);
+    state.camera.position.lerp(vec, 0.05);
+    state.camera.lookAt(target);
+  });
+  return null;
+};
 export default function AlgorithmSection() {
   const steps = [
     {
@@ -60,14 +74,20 @@ export default function AlgorithmSection() {
           </div>
         </div>
 
-        {/* Image Placeholder */}
-        <div className="w-full aspect-video border border-white/20 bg-[#0a0a0a] mb-12 flex items-center justify-center group overflow-hidden relative">
-          <div className="absolute inset-0 bg-white/5 group-hover:bg-transparent transition-colors duration-500"></div>
-          <div className="text-center p-8 z-10">
-            <span className="font-mono text-white/40 uppercase tracking-widest text-sm mb-2 block">Diagrama de Arquitetura Orbital</span>
-            <p className="text-white/20 text-xs max-w-md mx-auto">
-              [Insira aqui uma imagem de alta resolução ilustrando o fluxo de dados dos satélites até a predição de colisão]
-            </p>
+        {/* Data Flow Visualization */}
+        <div className="w-full aspect-video border border-white/20 bg-[#eaeaea] mb-12 flex items-center justify-center group overflow-hidden relative">
+          <Canvas style={{ background: '#eaeaea' }} camera={{ position: [0, 5, 10], fov: 30 }}>
+            <CameraRig />
+            <ambientLight intensity={0.2} />
+            <directionalLight position={[5, 10, 5]} intensity={1.5} />
+            <Earth />
+            <DataFlowPrediction />
+          </Canvas>
+          <div className="absolute top-6 left-6 pointer-events-none z-10">
+            <span className="font-mono text-black/60 uppercase tracking-widest text-xs block">
+              <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
+              Live Telemetry Feed
+            </span>
           </div>
         </div>
 

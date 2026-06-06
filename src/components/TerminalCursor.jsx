@@ -120,12 +120,21 @@ export default function TerminalCursor({ enabled = true }) {
 
       const dx = targetX - pos.current.x;
       const dy = targetY - pos.current.y;
+
+      const width = window.innerWidth;
+      let lerpFactor = 0.45; // 4k+ default
+      if (width < 768) {
+        lerpFactor = 0.8; // Mobile
+      } else if (width < 2560) {
+        lerpFactor = 0.6; // Menores que 2k
+      }
+
       if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
         pos.current.x = targetX;
         pos.current.y = targetY;
       } else {
-        pos.current.x += dx * 0.45;
-        pos.current.y += dy * 0.45;
+        pos.current.x += dx * lerpFactor;
+        pos.current.y += dy * lerpFactor;
       }
 
       if (cursorRef.current) {

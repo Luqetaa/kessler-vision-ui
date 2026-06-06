@@ -12,6 +12,14 @@ const HeroSection = () => {
   const words = ["Kessler_ Visi0n"];
   const [isHovered, setIsHovered] = useState(false);
 
+  const handleScanClick = () => {
+    const el = document.getElementById('python-agent-wrapper');
+    if (el) {
+      const absoluteTop = el.getBoundingClientRect().top + window.scrollY;
+      window.dispatchEvent(new CustomEvent('customScrollTo', { detail: absoluteTop }));
+    }
+  };
+
   return (
     <section className="py-12 w-full flex justify-center items-center px-4 md:px-6 bg-[#050505] min-h-screen relative overflow-hidden">
       
@@ -74,7 +82,10 @@ const HeroSection = () => {
             </p>
 
             {/* Button */}
-            <button className="group relative inline-flex !h-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-white !px-12 text-lg font-bold text-black transition-all duration-300 hover:bg-white/90 hover:scale-105 active:scale-95 hover:ring-4 hover:ring-white/20">
+            <button 
+              onClick={handleScanClick}
+              className="group relative inline-flex !h-16 items-center justify-center gap-3 overflow-hidden rounded-full bg-white !px-12 text-lg font-bold text-black transition-all duration-300 hover:bg-white/90 hover:scale-105 active:scale-95 hover:ring-4 hover:ring-white/20"
+            >
               <span className="relative z-10 font-bold">Iniciar Varredura</span>
               <ArrowRight className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
             </button>

@@ -23,6 +23,11 @@ function App() {
       }
     };
 
+    const onCustomScrollTo = (e) => {
+      targetY = e.detail;
+    };
+    window.addEventListener('customScrollTo', onCustomScrollTo);
+
     const handleWheel = (e) => {
       // Verifica se o target está dentro de um container com scroll próprio
       let el = e.target;
@@ -54,9 +59,18 @@ function App() {
 
       // Lerp suave — interpola entre posição atual e alvo
       const diff = targetY - currentY;
+      
+      const width = window.innerWidth;
+      let lerpFactor = 0.02; // 4k+ default (máximo smooth)
+      if (width < 768) {
+        lerpFactor = 0.15; // Mobile (menos smooth, mais instantâneo)
+      } else if (width < 2560) {
+        lerpFactor = 0.08; // Telas menores que 2k (smoothness reduzido)
+      }
+
       if (Math.abs(diff) > 0.5) {
-        // Easing ainda mais fluido e longo (floaty momentum)
-        currentY += diff * 0.04;
+        // Easing dinâmico baseado na resolução
+        currentY += diff * lerpFactor;
         window.scrollTo(0, currentY);
       } else {
         currentY = targetY;
@@ -71,6 +85,7 @@ function App() {
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('customScrollTo', onCustomScrollTo);
       cancelAnimationFrame(rAF);
     };
   }, []);

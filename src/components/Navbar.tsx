@@ -9,8 +9,8 @@ interface NavSection {
 const NAV_SECTIONS: NavSection[] = [
   { id: 'home',         label: 'HOME¹' },
   { id: 'debris',       label: 'DEBRIS²' },
-  { id: 'terminal',     label: 'CONSOLE³' },
-  { id: 'python-agent', label: 'AGENT⁴' },
+  { id: 'algorithm',    label: 'ALGORITHM³' },
+  { id: 'python-agent-wrapper', label: 'AGENT⁴' },
 ];
 
 export default function Navbar() {
@@ -40,7 +40,11 @@ export default function Navbar() {
 
   const scrollTo = (id: string) => {
     setMobileOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) {
+      const absoluteTop = el.getBoundingClientRect().top + window.scrollY;
+      window.dispatchEvent(new CustomEvent('customScrollTo', { detail: absoluteTop }));
+    }
   };
 
   return (

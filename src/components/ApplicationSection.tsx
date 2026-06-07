@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import useCasesImg from '../assets/use-cases.png';
 
 export default function ApplicationSection() {
   const applications = [
@@ -42,14 +43,19 @@ export default function ApplicationSection() {
             </p>
           </div>
           
-          {/* Image Placeholder */}
-          <div className="w-full h-64 md:h-80 border-2 border-white/30 bg-black/20 my-10 flex items-center justify-center relative overflow-hidden group">
-            <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors duration-500"></div>
-            <div className="text-center p-6 z-10">
-              <span className="font-mono text-white/60 uppercase tracking-widest text-sm mb-2 block">Ilustração de Impacto</span>
-              <p className="text-white/40 text-xs max-w-[250px] mx-auto">
-                [Insira aqui uma imagem de detritos orbitais, constelações de satélites ou uma representação do efeito cascata]
-              </p>
+          {/* Image Block */}
+          <div className="w-full h-64 md:h-80 border-2 border-white bg-black my-10 relative overflow-hidden group">
+            <img 
+              src={useCasesImg} 
+              alt="Caso de Uso Real - Detritos Espaciais" 
+              className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out grayscale hover:grayscale-0"
+            />
+            {/* Overlay sutil para manter o visual premium e contraste */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-4 left-4 z-10">
+              <span className="font-mono text-white text-[10px] uppercase tracking-widest bg-black/80 px-2 py-1 border border-white/40">
+                Detritos Órbitais Ativos
+              </span>
             </div>
           </div>
 

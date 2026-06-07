@@ -24,10 +24,20 @@ export default function TerminalCursor({ enabled = true }) {
   const [isSmall, setIsSmall] = useState(false);
   const [onResize, setOnResize] = useState(false);
   const [inPythonSection, setInPythonSection] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   /* Mouse tracking — detects element */
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || isMobile) return;
 
     // Adiciona classe ao body para esconder o cursor padrão
     document.body.classList.add("cursor-hidden");
@@ -101,7 +111,7 @@ export default function TerminalCursor({ enabled = true }) {
 
   /* Snappier follow — higher lerp + instant snap when close */
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || isMobile) return;
     let frame;
     const animate = () => {
       const liveRect = lockedEl.current
@@ -158,7 +168,7 @@ export default function TerminalCursor({ enabled = true }) {
     return () => cancelAnimationFrame(frame);
   }, [enabled]);
 
-  if (!enabled || onResize || inPythonSection) return null;
+  if (!enabled || onResize || inPythonSection || isMobile) return null;
 
   /* ── Large button mode: fixed [CLICK] label ── */
   if (targetRect && !isSmall) {

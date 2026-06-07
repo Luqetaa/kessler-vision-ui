@@ -11,6 +11,11 @@ import ApplicationSection from './components/ApplicationSection.tsx';
 function App() {
   // Smooth scroll com momentum — substitui scroll nativo por interpolação suave
   useEffect(() => {
+    // Desativa o smooth scroll customizado no mobile/touch para usar o scroll nativo do sistema
+    if (window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
     let targetY = window.scrollY;
     let currentY = window.scrollY;
     let rAF;

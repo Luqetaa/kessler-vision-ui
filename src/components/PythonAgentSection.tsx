@@ -623,7 +623,7 @@ export default function PythonAgentSection() {
           className="mb-16 max-w-2xl mx-auto text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-            Full control from your terminal.
+            Controle total pelo seu terminal.
           </h2>
           <p className="text-zinc-400 text-lg md:text-xl leading-relaxed">
             Algoritmos O(log n), pilhas e recursão processando dados orbitais reais da CelesTrak. Monitoramento de colisões na Órbita Terrestre Baixa, direto no seu navegador.

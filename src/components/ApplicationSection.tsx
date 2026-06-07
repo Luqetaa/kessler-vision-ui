@@ -58,12 +58,6 @@ export default function ApplicationSection() {
               </span>
             </div>
           </div>
-
-          <div className="mt-auto">
-            <button className="flex items-center gap-3 bg-black text-white px-8 py-5 text-lg font-bold uppercase tracking-wider hover:bg-white hover:text-black border-2 border-black transition-all duration-300">
-              Solicitar Demonstração <ArrowUpRight className="w-6 h-6" />
-            </button>
-          </div>
         </div>
 
         {/* Right Side: Brutalist List */}

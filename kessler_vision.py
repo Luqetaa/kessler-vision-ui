@@ -19,6 +19,8 @@ Fonte de dados: API pública CelesTrak (Cosmos 2251 Debris)
 
 import math
 import json
+from fastapi import FastAPI  
+import uvicorn               
 
 try:
     import requests
@@ -469,6 +471,49 @@ def simular_cascata_kessler(catalogo, altitude_impacto, raio_explosao,
         ids_atingidos, resultados
     )
 
+# ====================================================================
+# MICROSERVIÇO WEB (FAST API) - A PONTE COM O JAVA
+# ====================================================================
+
+# 1. Inicializa a API
+app = FastAPI(title="Kessler Vision - Motor Físico API")
+
+# 2. Carrega a base de dados do CelesTrak UMA ÚNICA VEZ quando liga o servidor
+CATALOGO_GLOBAL = carregar_catalogo()
+
+@app.get("/api/analisar")
+def analisar_risco(altitude: float):
+    print(f"📡 [API] Java solicitou análise para altitude: {altitude} km")
+    
+    # Chama a sua função original de Busca Binária/Radar
+    resultado_fisica = verificar_seguranca(CATALOGO_GLOBAL, altitude, raio=10)
+    
+    status = resultado_fisica["status"]
+    ameacas = resultado_fisica["threats"]
+    distancia = resultado_fisica["nearest"]
+
+    # Traduz para as regras do sistema
+    if status == "red":
+        nivel_alerta = "VERMELHO"
+        probabilidade = min(85.0 + (ameacas * 2.5), 99.9)
+        acao = "PERIGO: Preparar manobra evasiva (Pilha CAM)"
+    elif status == "yellow":
+        nivel_alerta = "AMARELO"
+        probabilidade = min(40.0 + (ameacas * 1.5), 84.9)
+        acao = "ATENÇÃO: Monitorizar detritos próximos"
+    else:
+        nivel_alerta = "VERDE"
+        probabilidade = 1.2
+        acao = "SEGURO: Órbita limpa. Manter trajetória."
+
+    return {
+        "altitudeAnalisada": altitude,
+        "nivelAlerta": nivel_alerta,
+        "probabilidadeImpacto": round(probabilidade, 2),
+        "ameacasDetectadas": ameacas,
+        "distanciaMaisProxima": distancia,
+        "acaoRecomendada": acao
+    }
 
 # ====================================================================
 # INTERFACE DO USUÁRIO (CLI — ESPELHO DA WEB UI)
@@ -631,4 +676,6 @@ def menu():
 
 
 if __name__ == "__main__":
-    menu()
+    print("\n🚀 Iniciando Motor Físico Kessler Vision (FastAPI) na porta 8000...")
+    # Em vez de chamar o menu(), ligamos o servidor web
+    uvicorn.run(app, host="0.0.0.0", port=8000)

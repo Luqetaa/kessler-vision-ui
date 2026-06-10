@@ -46,21 +46,21 @@ export default function TerminalCursor({ enabled = true }) {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
 
-      // Check if cursor is in python section
-      const inPython = e.target instanceof Element ? !!e.target.closest('#python-agent, .python-scroll-wrapper') : false;
+      // Check if cursor is in disabled sections (Python or Dashboard)
+      const isDisabledArea = e.target instanceof Element ? !!e.target.closest('#python-agent, .python-scroll-wrapper, #dashboard') : false;
       setInPythonSection((prev) => {
-        if (prev !== inPython) {
-          if (inPython) {
+        if (prev !== isDisabledArea) {
+          if (isDisabledArea) {
             document.body.classList.remove("cursor-hidden");
           } else {
             document.body.classList.add("cursor-hidden");
           }
-          return inPython;
+          return isDisabledArea;
         }
         return prev;
       });
 
-      if (inPython) {
+      if (isDisabledArea) {
         lockedEl.current = null;
         setTargetRect(null);
         setIsSmall(false);

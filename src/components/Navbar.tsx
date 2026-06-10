@@ -10,7 +10,10 @@ const NAV_SECTIONS: NavSection[] = [
   { id: 'home',         label: 'HOME¹' },
   { id: 'debris',       label: 'DEBRIS²' },
   { id: 'algorithm',    label: 'ALGORITHM³' },
-  { id: 'python-agent-wrapper', label: 'AGENT⁴' },
+  { id: 'java-section', label: 'JAVA⁴' },
+  { id: 'global-impact',label: 'IMPACT⁵' },
+  { id: 'dashboard',    label: 'DASHBOARD⁶' },
+  { id: 'python-agent-wrapper', label: 'AGENT⁷' },
 ];
 
 export default function Navbar() {
@@ -30,6 +33,24 @@ export default function Navbar() {
         }
       });
       
+      // Se chegou perto do final da página, força a última sessão a ficar ativa
+      // Margem de 200px para funcionar com smooth scroll customizado
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200;
+      if (isAtBottom) {
+        current = NAV_SECTIONS[NAV_SECTIONS.length - 1].id;
+      }
+
+      // Fallback: se a última seção está visível na viewport (topo acima de 60% da tela),
+      // marca como ativa — garante detecção mesmo se scroll não chega ao fundo absoluto
+      const lastSection = NAV_SECTIONS[NAV_SECTIONS.length - 1];
+      const lastEl = document.getElementById(lastSection.id);
+      if (lastEl) {
+        const rect = lastEl.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.6 && rect.bottom > 0) {
+          current = lastSection.id;
+        }
+      }
+      
       setActiveSection(current);
     };
 
@@ -43,7 +64,9 @@ export default function Navbar() {
     const el = document.getElementById(id);
     if (el) {
       const absoluteTop = el.getBoundingClientRect().top + window.scrollY;
-      window.dispatchEvent(new CustomEvent('customScrollTo', { detail: absoluteTop }));
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const finalTop = Math.min(absoluteTop, maxScroll);
+      window.dispatchEvent(new CustomEvent('customScrollTo', { detail: finalTop }));
     }
   };
 

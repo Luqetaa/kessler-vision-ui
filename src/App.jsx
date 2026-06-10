@@ -4,9 +4,12 @@ import Footer from './components/Footer';
 import HeroSection from './components/HeroSection.tsx';
 import DebrisSection from './components/DebrisSection';
 import TerminalCursor from './components/TerminalCursor';
+import DashboardSection from './components/DashboardSection.tsx';
 import PythonAgentSection from './components/PythonAgentSection.tsx';
 import AlgorithmSection from './components/AlgorithmSection.tsx';
 import ApplicationSection from './components/ApplicationSection.tsx';
+import JavaSection from './components/JavaSection.tsx';
+import GlobalImpactSection from './components/GlobalImpactSection.tsx';
 
 function App() {
   // Smooth scroll com momentum — substitui scroll nativo por interpolação suave
@@ -114,6 +117,18 @@ function App() {
 
       <div id="applications" className="relative z-10 bg-[#050505]">
         <ApplicationSection />
+      </div>
+
+      <div id="java-section" className="relative z-10 bg-[#050505]">
+        <JavaSection />
+      </div>
+
+      <div id="global-impact" className="relative z-10 bg-[#050505]">
+        <GlobalImpactSection />
+      </div>
+
+      <div id="dashboard" className="relative z-10 bg-[#050505]">
+        <DashboardSection />
       </div>
       
       <div id="python-agent-wrapper" className="relative z-10 bg-[#050505]">

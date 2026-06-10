@@ -483,7 +483,7 @@ CATALOGO_GLOBAL = carregar_catalogo()
 
 @app.get("/api/analisar")
 def analisar_risco(altitude: float):
-    print(f"📡 [API] Java solicitou análise para altitude: {altitude} km")
+    print(f"[API] Java solicitou analise para altitude: {altitude} km")
     
     # Chama a sua função original de Busca Binária/Radar
     resultado_fisica = verificar_seguranca(CATALOGO_GLOBAL, altitude, raio=10)
@@ -676,6 +676,6 @@ def menu():
 
 
 if __name__ == "__main__":
-    print("\n🚀 Iniciando Motor Físico Kessler Vision (FastAPI) na porta 8000...")
+    print("\nIniciando Motor Fisico Kessler Vision (FastAPI) na porta 8000...")
     # Em vez de chamar o menu(), ligamos o servidor web
     uvicorn.run(app, host="0.0.0.0", port=8000)

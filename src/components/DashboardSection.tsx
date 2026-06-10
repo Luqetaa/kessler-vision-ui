@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { Plus, Database, Radar, AlertTriangle, CheckCircle, Shield, Building2, Rocket } from 'lucide-react';
+import { Plus, Database, Radar, AlertTriangle, CheckCircle, Shield, Building2, Rocket, Trash2 } from 'lucide-react';
 
 export default function DashboardSection() {
   // ---- Estados de Dados ----
@@ -129,6 +129,16 @@ export default function DashboardSection() {
       setGlobalError('');
     } catch (err: any) {
       setGlobalError('Erro ao cadastrar satélite: ' + (err.response?.data || err.message));
+    }
+  };
+
+  const deletarSatelite = async (idSatelite: number) => {
+    try {
+      await api.delete(`/satelites/${idSatelite}`);
+      await carregarSatelites();
+      setGlobalError('');
+    } catch (err: any) {
+      setGlobalError('Erro ao excluir satélite: ' + (err.response?.data || err.message));
     }
   };
 
@@ -349,13 +359,21 @@ export default function DashboardSection() {
                               <span className="text-zinc-600 font-medium text-xs">- AGUARDANDO -</span>
                             )}
                           </td>
-                          <td className="p-4 md:px-6 text-right flex justify-end">
+                          <td className="p-4 md:px-6 text-right flex justify-end gap-2">
                             <button 
                               onClick={() => executarVarredura(sat.idSatelite)}
                               disabled={isLoading}
                               className="bg-white/10 text-white font-semibold text-xs px-4 py-2 hover:bg-white/20 transition-colors disabled:opacity-50 rounded-lg flex items-center gap-2"
                             >
                               <Radar className="w-3 h-3" /> ANALISAR
+                            </button>
+                            <button 
+                              onClick={() => deletarSatelite(sat.idSatelite)}
+                              disabled={isLoading}
+                              className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-semibold text-xs p-2 transition-colors disabled:opacity-50 rounded-lg flex items-center justify-center"
+                              title="Excluir Satélite"
+                            >
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </td>
                         </tr>
